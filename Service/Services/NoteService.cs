@@ -1,4 +1,6 @@
 ﻿using Model.DTO;
+using Model.Models;
+using Service.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,57 +9,76 @@ using System.Threading.Tasks;
 
 namespace Service.Services
 {
-    public class NoteService
+    public class NoteService : INoteService
     {
-        public List<NoteDTO> GetUserNotesList()
+        private readonly NotesWebsiteContext _context;
+
+        public NoteService(NotesWebsiteContext context)
         {
-            var noteList = new List<NoteDTO>();
-
-            for (int i = 0; i < 4; i++)
-            {
-                noteList.Add(new NoteDTO()
-                {
-                    Id = i,
-                    Title = "ea",
-                    Description = "producto",
-                    Category = 1,
-                    AuthorId = 1
-
-                });
-            }
-            return noteList;
+            _context = context;
         }
 
-        public NoteDTO CreateNewNote(NoteDTO newnote)
+        public List<NoteDTO> GetUserNotesList(int id)
         {
-            _context.Add(new NoteDTO()
+            var userNotes = _context.Notes
+            .Where(note => id == note.UserId)
+            .Select(note => new NoteDTO
             {
-                Id = newnote.Id, 
+                Id = note.Id,
+                Title = note.Title,
+                Description = note.Description,
+                Category = note.Category,
+                UserId = note.UserId
+            })
+            .ToList();
+
+            return userNotes;
+        }
+
+        public string CreateNewNote(NoteDTO newnote)
+        {
+            _context.Notes.Add(new Notes()
+            {
+                Id = newnote.Id,
                 Title = newnote.Title,
                 Description = newnote.Description,
-                AuthorId = newnote.AuthorId
-            })
-            return new NoteDTO();
+                UserId = newnote.UserId
+            });
+
+            _context.SaveChanges();
+
+            return "Created";
         }
 
-        public NoteDTO ModifyNote()
+        public string ModifyNote(NoteDTO note)
         {
-            var response = _context.Notes.FirstOrDefault(p => p.Id == Id);
+            var existingNote = _context.Notes.FirstOrDefault(p => p.Id == note.Id);
 
-            if (response == null)
+            if (existingNote == null)
             {
-                return null;
+                return "Not Found";
             }
-            // AGREGAR CAMBIO DE NOTE.
-            
 
-            return new NoteDTO();
+            existingNote.Title = note.Title;
+            existingNote.Description = note.Description;
+            existingNote.Category = note.Category;
+
+            _context.SaveChanges();
+
+            return "Change complete";
         }
 
-        public NoteDTO DeleteNote()
+        public void DeleteNote(int id)
         {
+            var note = _context.Notes.FirstOrDefault(p => p.Id == id);
+            if (note == null)
+            {
+                return;
+            }
+            _context.Notes.Remove(note);
+            _context.SaveChanges();
 
-            return new NoteDTO();
+            return;
         }
     }
 }

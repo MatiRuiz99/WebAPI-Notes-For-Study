@@ -17,35 +17,34 @@ namespace NotasAPI.Controllers
         }
 
         [HttpGet("GetNotes")]
-        public ActionResult<List<NoteDTO>> GetNotes()
+        public ActionResult<List<NoteDTO>> GetNotes([FromBody]int id)
         {
             
-            var response = _service.GetUserNotesList();
+            var response = _service.GetUserNotesList(id);
             return Ok(response);
         }
 
         [HttpPost("CreateNotes")]
-        public ActionResult<NoteDTO> CreateNewNote()
+        public ActionResult<NoteDTO> CreateNewNote([FromBody] NoteDTO note)
         {
             
-            var response = _service.CreateNewNote();
+            var response = _service.CreateNewNote(note);
             return Ok(response);
         }
 
         [HttpPut("ModifyNote")]
-        public ActionResult<NoteDTO> ModifyNote()
+        public ActionResult<NoteDTO> ModifyNote([FromBody] NoteDTO note)
         {
            
-            var response = _service.ModifyNote();
+            var response = _service.ModifyNote(note);
             return Ok(response);
         }
 
         [HttpDelete("DeleteNote")]
-        public ActionResult<NoteDTO> DeleteNote()
-        {
-            
-            var response = _service.DeleteNote();
-            return Ok(response);
+        public ActionResult<NoteDTO> DeleteNote([FromBody]int id)
+        { 
+            _service.DeleteNote(id);
+            return Ok();
         }
     }
 
