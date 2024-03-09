@@ -1,4 +1,5 @@
 ﻿using Model.DTO;
+using Model.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Service.IServices
     public interface INoteService
     {
         List<NoteDTO> GetUserNotesList(int id);
-        string CreateNewNote(NoteDTO newnote);
+        string CreateNewNote(NotesViewModel newnote);
         string ModifyNote(NoteDTO note);
         void DeleteNote(int id);
     }

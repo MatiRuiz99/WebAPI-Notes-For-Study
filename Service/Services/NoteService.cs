@@ -1,5 +1,6 @@
 ﻿using Model.DTO;
 using Model.Models;
+using Model.ViewModel;
 using Service.IServices;
 using System;
 using System.Collections.Generic;
@@ -35,13 +36,14 @@ namespace Service.Services
             return userNotes;
         }
 
-        public string CreateNewNote(NoteDTO newnote)
+        public string CreateNewNote(NotesViewModel newnote)
         {
             _context.Notes.Add(new Notes()
             {
-                Id = newnote.Id,
+                
                 Title = newnote.Title,
                 Description = newnote.Description,
+                Category = newnote.Category,
                 UserId = newnote.UserId
             });
 

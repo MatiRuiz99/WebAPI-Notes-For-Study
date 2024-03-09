@@ -1,4 +1,5 @@
 C:\Users\matia\source\repos\NotasAPI\Model\bin\Debug\net6.0\Model.deps.json
+C:\Users\matia\source\repos\NotasAPI\Model\bin\Debug\net6.0\Model.runtimeconfig.json
 C:\Users\matia\source\repos\NotasAPI\Model\bin\Debug\net6.0\Model.dll
 C:\Users\matia\source\repos\NotasAPI\Model\bin\Debug\net6.0\Model.pdb
 C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\Model.csproj.AssemblyReference.cache
@@ -9,4 +10,5 @@ C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\Model.csproj.CoreCom
 C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\Model.dll
 C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\refint\Model.dll
 C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\Model.pdb
+C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\Model.genruntimeconfig.cache
 C:\Users\matia\source\repos\NotasAPI\Model\obj\Debug\net6.0\ref\Model.dll

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
+using Model.ViewModel;
+using Service.IServices;
 using Service.Services;
 
 namespace NotasAPI.Controllers
@@ -9,15 +11,15 @@ namespace NotasAPI.Controllers
     [ApiController]
     public class ControllerNotes : ControllerBase
     {
-        private readonly NoteService _service;
+        private readonly INoteService _service;
 
-        public ControllerNotes(NoteService noteService)
+        public ControllerNotes(INoteService noteService)
         {
             _service = noteService;
         }
 
-        [HttpGet("GetNotes")]
-        public ActionResult<List<NoteDTO>> GetNotes([FromBody]int id)
+        [HttpGet("GetNotes/{id}")]
+        public ActionResult<List<NoteDTO>> GetNotes([FromRoute]int id)
         {
             
             var response = _service.GetUserNotesList(id);
@@ -25,7 +27,7 @@ namespace NotasAPI.Controllers
         }
 
         [HttpPost("CreateNotes")]
-        public ActionResult<NoteDTO> CreateNewNote([FromBody] NoteDTO note)
+        public ActionResult<string> CreateNewNote([FromBody] NotesViewModel note)
         {
             
             var response = _service.CreateNewNote(note);
@@ -33,7 +35,7 @@ namespace NotasAPI.Controllers
         }
 
         [HttpPut("ModifyNote")]
-        public ActionResult<NoteDTO> ModifyNote([FromBody] NoteDTO note)
+        public ActionResult<string> ModifyNote([FromBody] NoteDTO note)
         {
            
             var response = _service.ModifyNote(note);
@@ -41,10 +43,10 @@ namespace NotasAPI.Controllers
         }
 
         [HttpDelete("DeleteNote")]
-        public ActionResult<NoteDTO> DeleteNote([FromBody]int id)
+        public ActionResult<string> DeleteNote([FromBody]int id)
         { 
             _service.DeleteNote(id);
-            return Ok();
+            return Ok("deleteado");
         }
     }
 

@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using Model.Helper;
 using Model.Models;
 using Model.ViewModel;
+using Service.Helper;
 using Service.IServices;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -42,16 +43,16 @@ namespace Service.Services
                 return "Email is already in use";
             }
 
-            _context.Users.Add(new Users()
+            _ = _context.Users.Add(new Users()
             {
-                
+
                 Email = User.Email,
                 Password = User.Password.GetSHA256(),
-               
+
             });
             _context.SaveChanges();
 
-            string response = GetToken(_context.Users.OrderBy(x => x.Id).Last());
+            string response = GetToken(_context.Users.OrderBy(x => x.UserId).Last());
 
             return response;
         }
@@ -77,11 +78,9 @@ namespace Service.Services
                 Subject = new ClaimsIdentity(
                     new Claim[]
                     {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.FirstName),
-                        new Claim(ClaimTypes.Surname, user.LastName),
+                        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),                       
                         new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, _context.Role.First(x => x.Id == user.RoleId).Description)
+                        
                     }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
